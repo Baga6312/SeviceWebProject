@@ -10,16 +10,16 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = async () => {
-    try {
-      const res = await api.post('/auth/login', { email, password });
-      setToken(res.data.token);
-      router.push('/dashboard');
-    } catch (e) {
-      setError('Invalid credentials');
-    }
-  };
-
+const handleLogin = async () => {
+  try {
+    const res = await api.post('/auth/login', { email, password });
+    setToken(res.data.token);
+    localStorage.setItem('userId', res.data.user.id);
+    router.push('/dashboard');
+  } catch (e) {
+    setError('Invalid credentials');
+  }
+};
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">
       <div className="bg-gray-800 p-8 rounded-xl w-96 shadow-xl">

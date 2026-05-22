@@ -9,15 +9,16 @@ export default function RegisterPage() {
   const [form, setForm] = useState({ username: '', email: '', password: '', role: 'OPERATOR' });
   const [error, setError] = useState('');
 
-  const handleRegister = async () => {
-    try {
-      const res = await api.post('/auth/register', form);
-      setToken(res.data.token);
-      router.push('/dashboard');
-    } catch (e) {
-      setError('Registration failed');
-    }
-  };
+const handleRegister = async () => {
+  try {
+    const res = await api.post('/auth/register', form);
+    setToken(res.data.token);
+    localStorage.setItem('userId', res.data.user.id);
+    router.push('/dashboard');
+  } catch (e) {
+    setError('Registration failed');
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">

@@ -22,4 +22,7 @@ export class UsersService {
     const user = this.usersRepo.create({ username, email, password, role: role as any });
     return this.usersRepo.save(user);
   }
+  async findAll(): Promise<User[]> {
+    return this.usersRepo.find();
+}
 }

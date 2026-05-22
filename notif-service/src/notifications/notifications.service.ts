@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Notification } from './notification.entity';
 import { CreateNotificationInput } from './dto/create-notification.input';
 import { NotificationsWebSocketGateway } from './notifications.gateway';
+import axios from 'axios';
 
 @Injectable()
 export class NotificationsService {
@@ -14,14 +15,31 @@ export class NotificationsService {
   ) {}
 
   async create(input: CreateNotificationInput): Promise<Notification> {
-    const notif = this.repo.create(input);
-    const saved = await this.repo.save(notif);
-    this.wsGateway.broadcast(saved);
-    return saved;
+    // Get all users from auth service
+    let userIds: number[] = [input.userId];
+    try {
+      const res = await axios.post('http://localhost:3001/graphql', {
+        query: `query { getUsers { id } }`
+      });
+      userIds = res.data.data.getUsers.map((u: any) => u.id);
+    } catch (e) {
+      console.error('Failed to fetch users:', e.message);
+    }
+
+    // Create one notification per user
+    let saved: Notification | null = null;
+    for (const userId of userIds) {
+      const notif = this.repo.create({ ...input, userId });
+      saved = await this.repo.save(notif);
+    }
+
+    // Broadcast to all via WebSocket
+    this.wsGateway.broadcast({ ...input, userIds });
+    return saved!;
   }
 
   async findByUser(userId: number): Promise<Notification[]> {
-    return this.repo.find({ where: { userId } });
+    return this.repo.find({ where: { userId }, order: { createdAt: 'DESC' } });
   }
 
   async markAsRead(id: number): Promise<Notification | null> {

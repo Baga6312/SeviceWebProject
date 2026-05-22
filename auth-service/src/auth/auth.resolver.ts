@@ -7,12 +7,15 @@ import { LoginInput } from './dto/login.input';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 import { Roles } from './decorators/roles.decorator';
-import { Role } from '../users/user.entity';
-import { User } from '../users/user.entity';
+import { Role, User } from '../users/user.entity';
+import { UsersService } from '../users/users.service';
 
 @Resolver()
 export class AuthResolver {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private usersService: UsersService,
+  ) {}
 
   @Mutation(() => AuthResponse)
   register(@Args('input') input: RegisterInput) {
@@ -29,5 +32,10 @@ export class AuthResolver {
   @Roles(Role.ADMIN, Role.OPERATOR)
   me(@Context() context: any) {
     return context.req.user;
+  }
+
+  @Query(() => [User])
+  getUsers() {
+    return this.usersService.findAll();
   }
 }

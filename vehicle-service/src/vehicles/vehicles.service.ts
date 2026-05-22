@@ -5,6 +5,7 @@ import { Vehicle } from './vehicle.entity';
 import { GpsPosition } from './gps-position.entity';
 import { CreateVehicleInput } from './dto/create-vehicle.input';
 import { RecordPositionInput } from './dto/record-position.input';
+import axios from 'axios';
 
 @Injectable()
 export class VehiclesService {
@@ -13,9 +14,21 @@ export class VehiclesService {
     @InjectRepository(GpsPosition) private posRepo: Repository<GpsPosition>,
   ) {}
 
+  private async notify(message: string, type: string) {
+    try {
+      await axios.post('http://localhost:3002/graphql', {
+        query: `mutation { sendNotification(input: { userId: 0, message: "${message}", type: "${type}" }) { id } }`
+      });
+    } catch (e) {
+      console.error('Notification failed:', e.message);
+    }
+  }
+
   async create(input: CreateVehicleInput): Promise<Vehicle> {
     const vehicle = this.vehicleRepo.create(input);
-    return this.vehicleRepo.save(vehicle);
+    const saved = await this.vehicleRepo.save(vehicle);
+    await this.notify(`New vehicle added: ${input.plate} (${input.type})`, 'VEHICLE');
+    return saved;
   }
 
   async findAll(): Promise<Vehicle[]> {
