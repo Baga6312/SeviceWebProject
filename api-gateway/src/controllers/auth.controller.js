@@ -7,6 +7,9 @@ const login = async (req, res) => {
     const response = await axios.post(process.env.AUTH_SERVICE + '/graphql', {
       query: `mutation { login(input: { email: "${email}", password: "${password}" }) { token user { id username role } } }`
     });
+    if (response.data.errors) {
+      return res.status(400).json({ message: response.data.errors[0].message });
+    }
     res.json(response.data.data.login);
   } catch (e) {
     res.status(400).json({ message: e.message });

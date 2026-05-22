@@ -7,6 +7,9 @@ const addVehicle = async (req, res) => {
     const response = await axios.post(process.env.VEHICLE_SERVICE + '/graphql', {
       query: `mutation { addVehicle(input: { plate: "${plate}", type: "${type}", ownerId: ${ownerId} }) { id plate type status } }`
     });
+    if (response.data.errors) {
+      return res.status(400).json({ message: response.data.errors[0].message });
+    }
     res.json(response.data.data.addVehicle);
   } catch (e) {
     res.status(400).json({ message: e.message });
