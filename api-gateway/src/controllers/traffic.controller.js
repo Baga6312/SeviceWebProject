@@ -25,6 +25,20 @@ const measureDensity = async (req, res) => {
   }
 };
 
+const getZones = async (req, res) => {
+  try {
+    const response = await axios.post(process.env.TRAFFIC_SERVICE + '/graphql', {
+      query: `query { getZones { id name lat lng radius } }`
+    });
+    res.json(response.data.data.getZones);
+  } catch (e) {
+    res.status(400).json({ message: e.message });
+  }
+};
+
+
+
+
 const getCongestedZones = async (req, res) => {
   try {
     const response = await axios.post(process.env.TRAFFIC_SERVICE + '/graphql', {
@@ -36,4 +50,4 @@ const getCongestedZones = async (req, res) => {
   }
 };
 
-module.exports = { createZone, measureDensity, getCongestedZones };
+module.exports = { createZone, measureDensity, getCongestedZones , getZones };

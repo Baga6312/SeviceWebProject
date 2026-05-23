@@ -16,7 +16,7 @@ export class TrafficService {
 
   private async notify(message: string, type: string) {
     try {
-      await axios.post('http://localhost:3002/graphql', {
+      await axios.post(`${process.env.NOTIF_SERVICE || 'http://localhost:3002'}/graphql`, {
         query: `mutation { sendNotification(input: { userId: 1, message: "${message}", type: "${type}" }) { id } }`
       });
     } catch (e) {

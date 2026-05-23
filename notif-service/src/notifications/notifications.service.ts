@@ -18,7 +18,7 @@ export class NotificationsService {
     // Get all users from auth service
     let userIds: number[] = [input.userId];
     try {
-      const res = await axios.post('http://localhost:3001/graphql', {
+      const res = await axios.post(`${process.env.AUTH_SERVICE || 'http://localhost:3001'}/graphql`, {
         query: `query { getUsers { id } }`
       });
       userIds = res.data.data.getUsers.map((u: any) => u.id);
