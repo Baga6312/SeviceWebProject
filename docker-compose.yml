@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   auth_db:
     image: postgres:15
@@ -48,6 +47,11 @@ services:
     networks:
       - backend
 
+  redis:
+    image: redis:7-alpine
+    networks:
+      - backend
+
   auth-service:
     build: ./auth-service
     environment:
@@ -64,9 +68,9 @@ services:
       - backend
 
   notif-service:
-    ports: 
-      - "3002:3002"
     build: ./notif-service
+    ports:
+      - "3002:3002"
     environment:
       DB_HOST: notif_db
       DB_PORT: 5432
@@ -75,8 +79,10 @@ services:
       DB_NAME: notif_db
       PORT: 3002
       AUTH_SERVICE: http://auth-service:3001
+      REDIS_URL: redis://redis:6379
     depends_on:
       - notif_db
+      - redis
     networks:
       - backend
 
@@ -118,8 +124,8 @@ services:
       DB_USER: admin
       DB_PASSWORD: admin123
       DB_NAME: incident_db
-      NOTIF_SERVICE: http://notif-service:3002
       PORT: 3005
+      NOTIF_SERVICE: http://notif-service:3002
     depends_on:
       - incident_db
     networks:

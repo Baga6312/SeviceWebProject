@@ -29,6 +29,9 @@ export class TrafficService {
     return this.zoneRepo.save(zone);
   }
 
+  async getAllTrafficData(): Promise<TrafficData[]> {
+    return this.trafficRepo.find({ order: { timestamp: 'DESC' } });
+  }
   async getZones(): Promise<Zone[]> {
     return this.zoneRepo.find();
   }
@@ -42,7 +45,7 @@ export class TrafficService {
     const saved = await this.trafficRepo.save(data);
 
     if (level === 'HIGH') {
-      await this.notify(`Zone ${zone.name} is congested! Density: ${input.density}%`, 'TRAFFIC');
+      await this.notify(`Zone ${zone.name} - Density: ${input.density}% (${level})`, 'TRAFFIC');
     }
 
     return saved;

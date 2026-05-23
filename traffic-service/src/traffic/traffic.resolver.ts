@@ -28,4 +28,8 @@ export class TrafficResolver {
   getCongestedZones() {
     return this.service.getCongestedZones();
   }
+  @Query(() => [TrafficData])
+  getAllTrafficData() {
+    return this.service.getAllTrafficData();
+}
 }

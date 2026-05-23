@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Notification } from './notification.entity';
 import { CreateNotificationInput } from './dto/create-notification.input';
 import { NotificationsWebSocketGateway } from './notifications.gateway';
+import { RedisService } from './redis.service';
 import axios from 'axios';
 
 @Injectable()
@@ -12,10 +13,10 @@ export class NotificationsService {
     @InjectRepository(Notification)
     private repo: Repository<Notification>,
     private wsGateway: NotificationsWebSocketGateway,
+    private redisService: RedisService,
   ) {}
 
   async create(input: CreateNotificationInput): Promise<Notification> {
-    // Get all users from auth service
     let userIds: number[] = [input.userId];
     try {
       const res = await axios.post(`${process.env.AUTH_SERVICE || 'http://localhost:3001'}/graphql`, {
@@ -26,24 +27,34 @@ export class NotificationsService {
       console.error('Failed to fetch users:', e.message);
     }
 
-    // Create one notification per user
     let saved: Notification | null = null;
     for (const userId of userIds) {
       const notif = this.repo.create({ ...input, userId });
       saved = await this.repo.save(notif);
+      // Invalidate cache for this user
+      await this.redisService.del(`notifs:${userId}`);
     }
 
-    // Broadcast to all via WebSocket
     this.wsGateway.broadcast({ ...input, userIds });
     return saved!;
   }
 
   async findByUser(userId: number): Promise<Notification[]> {
-    return this.repo.find({ where: { userId }, order: { createdAt: 'DESC' } });
+  const cacheKey = `notifs:${userId}`;
+  const cached = await this.redisService.get(cacheKey);
+  if (cached) {
+    console.log(`[CACHE HIT] notifs:${userId}`);
+    return JSON.parse(cached);
   }
-
+  console.log(`[CACHE MISS] notifs:${userId}`);
+  const notifs = await this.repo.find({ where: { userId }, order: { createdAt: 'DESC' } });
+  await this.redisService.set(cacheKey, JSON.stringify(notifs), 60);
+  return notifs;
+}
   async markAsRead(id: number): Promise<Notification | null> {
     await this.repo.update(id, { isRead: true });
-    return this.repo.findOne({ where: { id } });
+    const notif = await this.repo.findOne({ where: { id } });
+    if (notif) await this.redisService.del(`notifs:${notif.userId}`);
+    return notif;
   }
 }

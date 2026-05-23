@@ -50,4 +50,16 @@ const getCongestedZones = async (req, res) => {
   }
 };
 
-module.exports = { createZone, measureDensity, getCongestedZones , getZones };
+
+const getAllTrafficData = async (req, res) => {
+  try {
+    const response = await axios.post(process.env.TRAFFIC_SERVICE + '/graphql', {
+      query: `query { getAllTrafficData { id zoneId density level timestamp } }`
+    });
+    res.json(response.data.data.getAllTrafficData);
+  } catch (e) {
+    res.status(400).json({ message: e.message });
+  }
+};
+
+module.exports = { createZone, measureDensity, getCongestedZones, getZones, getAllTrafficData };
