@@ -29,6 +29,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', service: 'api-gateway', timestamp: new Date().toISOString() });
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`Gateway running on http://localhost:${process.env.PORT}`);

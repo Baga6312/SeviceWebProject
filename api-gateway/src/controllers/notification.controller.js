@@ -19,6 +19,9 @@ const getNotifications = async (req, res) => {
     const response = await axios.post(process.env.NOTIF_SERVICE + '/graphql', {
       query: `query { getNotifications(userId: ${userId}) { id message type isRead createdAt } }`
     });
+    if (response.data.errors) {
+      return res.status(400).json({ message: response.data.errors[0].message });
+    }
     res.json(response.data.data.getNotifications);
   } catch (e) {
     res.status(400).json({ message: e.message });
