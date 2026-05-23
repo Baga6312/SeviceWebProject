@@ -4,6 +4,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { isAuthenticated, removeToken } from '../lib/auth';
 import Link from 'next/link';
 import NotificationBell from '../components/NotificationBell';
+import api from '../lib/api';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -12,6 +13,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   useEffect(() => {
     if (!isAuthenticated()) router.push('/login');
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await api.post('/auth/logout');
+    } catch (e) {}
+    removeToken();
+    localStorage.removeItem('userId');
+    router.push('/login');
+  };
 
   const navItems = [
     { href: '/dashboard', label: 'Overview' },
@@ -31,7 +41,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </Link>
         ))}
         <button className="mt-auto p-3 rounded bg-red-600 hover:bg-red-700 font-medium"
-          onClick={() => { removeToken(); router.push('/login'); }}>
+          onClick={handleLogout}>
           Logout
         </button>
       </aside>

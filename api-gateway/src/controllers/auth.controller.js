@@ -42,4 +42,19 @@ const validate = async (req, res) => {
   }
 };
 
-module.exports = { login, register, validate };
+const logout = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    const response = await axios.post(process.env.AUTH_SERVICE + '/graphql', {
+      query: `mutation { logout }`
+    }, { headers: { Authorization: `Bearer ${token}` } });
+    if (response.data.errors) {
+      return res.status(400).json({ message: response.data.errors[0].message });
+    }
+    res.json({ message: 'Logged out successfully' });
+  } catch (e) {
+    res.status(400).json({ message: e.message });
+  }
+};
+
+module.exports = { login, register, validate, logout };

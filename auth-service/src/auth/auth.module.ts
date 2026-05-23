@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver';
 import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { UsersService } from '../users/users.service';
+import { RedisService } from './redis.service';
 
 @Module({
   imports: [
@@ -20,6 +20,7 @@ import { UsersService } from '../users/users.service';
       }),
     }),
   ],
-  providers: [AuthService, AuthResolver, JwtStrategy],
+  providers: [AuthService, AuthResolver, JwtStrategy, RedisService],
+  exports: [RedisService],
 })
 export class AuthModule {}

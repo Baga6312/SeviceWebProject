@@ -9,12 +9,14 @@ import { RolesGuard } from './guards/roles.guard';
 import { Roles } from './decorators/roles.decorator';
 import { Role, User } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
+import { RedisService } from './redis.service';
 
 @Resolver()
 export class AuthResolver {
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
+    private redisService: RedisService,
   ) {}
 
   @Mutation(() => AuthResponse)
@@ -25,6 +27,16 @@ export class AuthResolver {
   @Mutation(() => AuthResponse)
   login(@Args('input') input: LoginInput) {
     return this.authService.login(input);
+  }
+
+  @Mutation(() => Boolean)
+  @UseGuards(JwtAuthGuard)
+  async logout(@Context() context: any) {
+    const token = context.req.headers.authorization?.split(' ')[1];
+    if (token) {
+      await this.redisService.set(`blacklist:${token}`, '1', 86400);
+    }
+    return true;
   }
 
   @Query(() => User)

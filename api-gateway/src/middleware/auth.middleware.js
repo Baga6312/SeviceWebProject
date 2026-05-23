@@ -1,10 +1,15 @@
 const jwt = require('jsonwebtoken');
+const Redis = require('ioredis');
 require('dotenv').config();
 
-const authenticate = (req, res, next) => {
+const redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379');
+
+const authenticate = async (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'No token provided' });
   try {
+    const blacklisted = await redis.get(`blacklist:${token}`);
+    if (blacklisted) return res.status(401).json({ message: 'Token revoked' });
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
@@ -19,4 +24,4 @@ const requireRole = (...roles) => (req, res, next) => {
   next();
 };
 
-module.exports = { authenticate, requireRole }; 
+module.exports = { authenticate, requireRole };
