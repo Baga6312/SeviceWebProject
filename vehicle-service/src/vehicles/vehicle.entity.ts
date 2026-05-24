@@ -1,5 +1,11 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { GpsPosition } from './gps-position.entity';
 
 @ObjectType()
@@ -12,7 +18,7 @@ export class Vehicle {
   @Field()
   @Column({ unique: true })
   plate: string;
-  
+
   @Field()
   @Column()
   type: string;

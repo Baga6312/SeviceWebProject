@@ -8,15 +8,16 @@ import axios from 'axios';
 
 @Injectable()
 export class IncidentsService {
-  constructor(
-    @InjectRepository(Incident) private repo: Repository<Incident>,
-  ) {}
+  constructor(@InjectRepository(Incident) private repo: Repository<Incident>) {}
 
   private async notify(userId: number, message: string, type: string) {
     try {
-      await axios.post(`${process.env.NOTIF_SERVICE || 'http://localhost:3002'}/graphql`, {
-        query: `mutation { sendNotification(input: { userId: ${userId}, message: "${message}", type: "${type}" }) { id } }`
-      });
+      await axios.post(
+        `${process.env.NOTIF_SERVICE || 'http://localhost:3002'}/graphql`,
+        {
+          query: `mutation { sendNotification(input: { userId: ${userId}, message: "${message}", type: "${type}" }) { id } }`,
+        },
+      );
     } catch (e) {
       console.error('Notification failed:', e.message);
     }
@@ -25,7 +26,11 @@ export class IncidentsService {
   async create(input: CreateIncidentInput): Promise<Incident> {
     const incident = this.repo.create(input);
     const saved = await this.repo.save(incident);
-    await this.notify(input.reportedBy, `Incident declared: ${input.type} at ${input.location}`, 'INCIDENT');
+    await this.notify(
+      input.reportedBy,
+      `Incident declared: ${input.type} at ${input.location}`,
+      'INCIDENT',
+    );
     return saved;
   }
 
@@ -42,7 +47,11 @@ export class IncidentsService {
   async updateStatus(input: UpdateStatusInput): Promise<Incident> {
     await this.repo.update(input.id, { status: input.status });
     const incident = await this.findOne(input.id);
-    await this.notify(incident.reportedBy, `Incident #${input.id} status updated to ${input.status}`, 'INCIDENT_UPDATE');
+    await this.notify(
+      incident.reportedBy,
+      `Incident #${input.id} status updated to ${input.status}`,
+      'INCIDENT_UPDATE',
+    );
     return incident;
   }
 }

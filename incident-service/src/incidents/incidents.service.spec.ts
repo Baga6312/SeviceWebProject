@@ -4,7 +4,13 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Incident } from './incident.entity';
 import { NotFoundException } from '@nestjs/common';
 
-const mockRepo = { create: jest.fn(), save: jest.fn(), find: jest.fn(), findOne: jest.fn(), update: jest.fn() };
+const mockRepo = {
+  create: jest.fn(),
+  save: jest.fn(),
+  find: jest.fn(),
+  findOne: jest.fn(),
+  update: jest.fn(),
+};
 
 describe('IncidentsService', () => {
   let service: IncidentsService;
@@ -26,7 +32,12 @@ describe('IncidentsService', () => {
     const inc = { id: 1, type: 'ACCIDENT', status: 'SIGNALED', reportedBy: 1 };
     mockRepo.create.mockReturnValue(inc);
     mockRepo.save.mockResolvedValue(inc);
-    const result = await service.create({ type: 'ACCIDENT', description: 'Test', location: 'Tunis', reportedBy: 1 });
+    const result = await service.create({
+      type: 'ACCIDENT',
+      description: 'Test',
+      location: 'Tunis',
+      reportedBy: 1,
+    });
     expect(result.type).toBe('ACCIDENT');
   });
 

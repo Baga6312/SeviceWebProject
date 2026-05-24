@@ -19,9 +19,12 @@ export class NotificationsService {
   async create(input: CreateNotificationInput): Promise<Notification> {
     let userIds: number[] = [input.userId];
     try {
-      const res = await axios.post(`${process.env.AUTH_SERVICE || 'http://localhost:3001'}/graphql`, {
-        query: `query { getUsers { id } }`
-      });
+      const res = await axios.post(
+        `${process.env.AUTH_SERVICE || 'http://localhost:3001'}/graphql`,
+        {
+          query: `query { getUsers { id } }`,
+        },
+      );
       userIds = res.data.data.getUsers.map((u: any) => u.id);
     } catch (e) {
       console.error('Failed to fetch users:', e.message);
@@ -40,17 +43,20 @@ export class NotificationsService {
   }
 
   async findByUser(userId: number): Promise<Notification[]> {
-  const cacheKey = `notifs:${userId}`;
-  const cached = await this.redisService.get(cacheKey);
-  if (cached) {
-    console.log(`[CACHE HIT] notifs:${userId}`);
-    return JSON.parse(cached);
+    const cacheKey = `notifs:${userId}`;
+    const cached = await this.redisService.get(cacheKey);
+    if (cached) {
+      console.log(`[CACHE HIT] notifs:${userId}`);
+      return JSON.parse(cached);
+    }
+    console.log(`[CACHE MISS] notifs:${userId}`);
+    const notifs = await this.repo.find({
+      where: { userId },
+      order: { createdAt: 'DESC' },
+    });
+    await this.redisService.set(cacheKey, JSON.stringify(notifs), 60);
+    return notifs;
   }
-  console.log(`[CACHE MISS] notifs:${userId}`);
-  const notifs = await this.repo.find({ where: { userId }, order: { createdAt: 'DESC' } });
-  await this.redisService.set(cacheKey, JSON.stringify(notifs), 60);
-  return notifs;
-}
   async markAsRead(id: number): Promise<Notification | null> {
     await this.repo.update(id, { isRead: true });
     const notif = await this.repo.findOne({ where: { id } });

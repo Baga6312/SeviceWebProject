@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TrafficService } from './traffic.service';
 import { Zone } from './zone.entity';
 import { TrafficData } from './traffic-data.entity';
@@ -31,5 +31,5 @@ export class TrafficResolver {
   @Query(() => [TrafficData])
   getAllTrafficData() {
     return this.service.getAllTrafficData();
-}
+  }
 }

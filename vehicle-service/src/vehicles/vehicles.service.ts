@@ -17,7 +17,7 @@ export class VehiclesService {
   private async notify(message: string, type: string) {
     try {
       await axios.post('http://localhost:3002/graphql', {
-        query: `mutation { sendNotification(input: { userId: 0, message: "${message}", type: "${type}" }) { id } }`
+        query: `mutation { sendNotification(input: { userId: 0, message: "${message}", type: "${type}" }) { id } }`,
       });
     } catch (e) {
       console.error('Notification failed:', e.message);
@@ -27,7 +27,10 @@ export class VehiclesService {
   async create(input: CreateVehicleInput): Promise<Vehicle> {
     const vehicle = this.vehicleRepo.create(input);
     const saved = await this.vehicleRepo.save(vehicle);
-    await this.notify(`New vehicle added: ${input.plate} (${input.type})`, 'VEHICLE');
+    await this.notify(
+      `New vehicle added: ${input.plate} (${input.type})`,
+      'VEHICLE',
+    );
     return saved;
   }
 
@@ -47,6 +50,9 @@ export class VehiclesService {
   }
 
   async getHistory(vehicleId: number): Promise<GpsPosition[]> {
-    return this.posRepo.find({ where: { vehicleId }, order: { timestamp: 'DESC' } });
+    return this.posRepo.find({
+      where: { vehicleId },
+      order: { timestamp: 'DESC' },
+    });
   }
 }

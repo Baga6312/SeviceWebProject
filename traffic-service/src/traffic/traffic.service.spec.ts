@@ -5,7 +5,12 @@ import { Zone } from './zone.entity';
 import { TrafficData } from './traffic-data.entity';
 import { NotFoundException } from '@nestjs/common';
 
-const mockZoneRepo = { create: jest.fn(), save: jest.fn(), find: jest.fn(), findOne: jest.fn() };
+const mockZoneRepo = {
+  create: jest.fn(),
+  save: jest.fn(),
+  find: jest.fn(),
+  findOne: jest.fn(),
+};
 const mockTrafficRepo = { create: jest.fn(), save: jest.fn(), find: jest.fn() };
 
 describe('TrafficService', () => {
@@ -29,13 +34,20 @@ describe('TrafficService', () => {
     const zone = { id: 1, name: 'Zone A', lat: 36.8, lng: 10.1, radius: 500 };
     mockZoneRepo.create.mockReturnValue(zone);
     mockZoneRepo.save.mockResolvedValue(zone);
-    const result = await service.createZone({ name: 'Zone A', lat: 36.8, lng: 10.1, radius: 500 });
+    const result = await service.createZone({
+      name: 'Zone A',
+      lat: 36.8,
+      lng: 10.1,
+      radius: 500,
+    });
     expect(result.name).toBe('Zone A');
   });
 
   it('should throw NotFoundException if zone not found', async () => {
     mockZoneRepo.findOne.mockResolvedValue(null);
-    await expect(service.measureDensity({ zoneId: 999, density: 50 })).rejects.toThrow(NotFoundException);
+    await expect(
+      service.measureDensity({ zoneId: 999, density: 50 }),
+    ).rejects.toThrow(NotFoundException);
   });
 
   it('should classify LOW density', async () => {

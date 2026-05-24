@@ -39,8 +39,8 @@ import * as Joi from 'joi';
       driver: ApolloDriver,
       autoSchemaFile: true,
       formatError: (error) => ({
-      message: error.message,
-      code: error.extensions?.code,
+        message: error.message,
+        code: error.extensions?.code,
       }),
     }),
 

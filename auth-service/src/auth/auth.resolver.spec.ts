@@ -33,7 +33,10 @@ describe('AuthResolver', () => {
 
   it('should call login', async () => {
     mockAuthService.login.mockResolvedValue({ token: 'abc', user: { id: 1 } });
-    const result = await resolver.login({ email: 'test@test.com', password: 'Test1234!' });
+    const result = await resolver.login({
+      email: 'test@test.com',
+      password: 'Test1234!',
+    });
     expect(result.token).toBe('abc');
   });
 });

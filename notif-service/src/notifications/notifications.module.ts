@@ -8,6 +8,11 @@ import { RedisService } from './redis.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Notification])],
-  providers: [NotificationsService, NotificationsResolver, NotificationsWebSocketGateway, RedisService],
+  providers: [
+    NotificationsService,
+    NotificationsResolver,
+    NotificationsWebSocketGateway,
+    RedisService,
+  ],
 })
 export class NotificationsModule {}

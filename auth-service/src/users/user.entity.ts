@@ -1,5 +1,10 @@
 import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 export enum Role {
   ADMIN = 'ADMIN',

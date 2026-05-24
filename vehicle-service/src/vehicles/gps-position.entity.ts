@@ -1,5 +1,11 @@
 import { ObjectType, Field, ID, Float } from '@nestjs/graphql';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  ManyToOne,
+} from 'typeorm';
 import { Vehicle } from './vehicle.entity';
 
 @ObjectType()

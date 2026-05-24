@@ -18,11 +18,21 @@ export class UsersService {
     return this.usersRepo.findOne({ where: { id } });
   }
 
-  async create(username: string, email: string, password: string, role?: string): Promise<User> {
-    const user = this.usersRepo.create({ username, email, password, role: role as any });
+  async create(
+    username: string,
+    email: string,
+    password: string,
+    role?: string,
+  ): Promise<User> {
+    const user = this.usersRepo.create({
+      username,
+      email,
+      password,
+      role: role as any,
+    });
     return this.usersRepo.save(user);
   }
   async findAll(): Promise<User[]> {
     return this.usersRepo.find();
-}
+  }
 }

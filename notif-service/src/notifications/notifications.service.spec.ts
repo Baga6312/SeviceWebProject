@@ -41,11 +41,21 @@ describe('NotificationsService', () => {
   });
 
   it('should create notification and broadcast', async () => {
-    const notif = { id: 1, message: 'Test', type: 'INFO', userId: 1, isRead: false };
+    const notif = {
+      id: 1,
+      message: 'Test',
+      type: 'INFO',
+      userId: 1,
+      isRead: false,
+    };
     mockRepo.create.mockReturnValue(notif);
     mockRepo.save.mockResolvedValue(notif);
 
-    const result = await service.create({ userId: 1, message: 'Test', type: 'INFO' });
+    const result = await service.create({
+      userId: 1,
+      message: 'Test',
+      type: 'INFO',
+    });
 
     expect(mockWsGateway.broadcast).toHaveBeenCalled();
     expect(result).toEqual(notif);
@@ -65,7 +75,7 @@ describe('NotificationsService', () => {
     mockRedis.get.mockResolvedValue(null);
     mockRepo.find.mockResolvedValue([{ id: 1, message: 'Test' }]);
 
-    const result = await service.findByUser(1);
+    await service.findByUser(1);
 
     expect(mockRepo.find).toHaveBeenCalled();
     expect(mockRedis.set).toHaveBeenCalled();
@@ -80,4 +90,4 @@ describe('NotificationsService', () => {
     expect(mockRepo.update).toHaveBeenCalledWith(1, { isRead: true });
     expect(mockRedis.del).toHaveBeenCalledWith('notifs:1');
   });
-}); 
+});

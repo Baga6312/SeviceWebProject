@@ -33,7 +33,11 @@ describe('AuthService', () => {
   describe('register', () => {
     it('should register a new user and return token', async () => {
       mockUsersService.findByEmail.mockResolvedValue(null);
-      mockUsersService.create.mockResolvedValue({ id: 1, email: 'test@test.com', role: 'OPERATOR' });
+      mockUsersService.create.mockResolvedValue({
+        id: 1,
+        email: 'test@test.com',
+        role: 'OPERATOR',
+      });
 
       const result = await service.register({
         username: 'test',
@@ -47,23 +51,36 @@ describe('AuthService', () => {
     });
 
     it('should throw ConflictException if email exists', async () => {
-      mockUsersService.findByEmail.mockResolvedValue({ id: 1, email: 'test@test.com' });
-
-      await expect(service.register({
-        username: 'test',
+      mockUsersService.findByEmail.mockResolvedValue({
+        id: 1,
         email: 'test@test.com',
-        password: 'Test1234!',
-        role: 'OPERATOR',
-      })).rejects.toThrow(ConflictException);
+      });
+
+      await expect(
+        service.register({
+          username: 'test',
+          email: 'test@test.com',
+          password: 'Test1234!',
+          role: 'OPERATOR',
+        }),
+      ).rejects.toThrow(ConflictException);
     });
   });
 
   describe('login', () => {
     it('should login and return token', async () => {
       const hashed = await bcrypt.hash('Test1234!', 10);
-      mockUsersService.findByEmail.mockResolvedValue({ id: 1, email: 'test@test.com', role: 'OPERATOR', password: hashed });
+      mockUsersService.findByEmail.mockResolvedValue({
+        id: 1,
+        email: 'test@test.com',
+        role: 'OPERATOR',
+        password: hashed,
+      });
 
-      const result = await service.login({ email: 'test@test.com', password: 'Test1234!' });
+      const result = await service.login({
+        email: 'test@test.com',
+        password: 'Test1234!',
+      });
 
       expect(result.token).toBe('mock-token');
     });
@@ -71,16 +88,22 @@ describe('AuthService', () => {
     it('should throw UnauthorizedException if user not found', async () => {
       mockUsersService.findByEmail.mockResolvedValue(null);
 
-      await expect(service.login({ email: 'wrong@test.com', password: 'Test1234!' }))
-        .rejects.toThrow(UnauthorizedException);
+      await expect(
+        service.login({ email: 'wrong@test.com', password: 'Test1234!' }),
+      ).rejects.toThrow(UnauthorizedException);
     });
 
     it('should throw UnauthorizedException if password wrong', async () => {
       const hashed = await bcrypt.hash('Test1234!', 10);
-      mockUsersService.findByEmail.mockResolvedValue({ id: 1, email: 'test@test.com', password: hashed });
+      mockUsersService.findByEmail.mockResolvedValue({
+        id: 1,
+        email: 'test@test.com',
+        password: hashed,
+      });
 
-      await expect(service.login({ email: 'test@test.com', password: 'WrongPass!' }))
-        .rejects.toThrow(UnauthorizedException);
+      await expect(
+        service.login({ email: 'test@test.com', password: 'WrongPass!' }),
+      ).rejects.toThrow(UnauthorizedException);
     });
   });
 });

@@ -5,7 +5,12 @@ import { Vehicle } from './vehicle.entity';
 import { GpsPosition } from './gps-position.entity';
 import { NotFoundException } from '@nestjs/common';
 
-const mockVehicleRepo = { create: jest.fn(), save: jest.fn(), find: jest.fn(), findOne: jest.fn() };
+const mockVehicleRepo = {
+  create: jest.fn(),
+  save: jest.fn(),
+  find: jest.fn(),
+  findOne: jest.fn(),
+};
 const mockPosRepo = { create: jest.fn(), save: jest.fn(), find: jest.fn() };
 
 describe('VehiclesService', () => {
@@ -29,7 +34,11 @@ describe('VehiclesService', () => {
     const v = { id: 1, plate: 'TU-123', type: 'CAR', ownerId: 1 };
     mockVehicleRepo.create.mockReturnValue(v);
     mockVehicleRepo.save.mockResolvedValue(v);
-    const result = await service.create({ plate: 'TU-123', type: 'CAR', ownerId: 1 });
+    const result = await service.create({
+      plate: 'TU-123',
+      type: 'CAR',
+      ownerId: 1,
+    });
     expect(result.plate).toBe('TU-123');
   });
 
@@ -42,7 +51,11 @@ describe('VehiclesService', () => {
     const pos = { id: 1, vehicleId: 1, lat: 36.8, lng: 10.1 };
     mockPosRepo.create.mockReturnValue(pos);
     mockPosRepo.save.mockResolvedValue(pos);
-    const result = await service.recordPosition({ vehicleId: 1, lat: 36.8, lng: 10.1 });
+    const result = await service.recordPosition({
+      vehicleId: 1,
+      lat: 36.8,
+      lng: 10.1,
+    });
     expect(result.vehicleId).toBe(1);
   });
 
