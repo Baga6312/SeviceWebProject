@@ -9,11 +9,15 @@ const vehicleRoutes = require('./routes/vehicle.routes');
 const incidentRoutes = require('./routes/incident.routes');
 const trafficRoutes = require('./routes/traffic.routes');
 const notificationRoutes = require('./routes/notification.routes');
+const cookieParser = require('cookie-parser');
+
+
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'http://localhost:3000' , credentials: true }));
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(rateLimit({ windowMs: 60000, max: 100 }));
 
 app.use('/api/v1/auth', authRoutes);

@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { isAuthenticated, removeToken } from '../lib/auth';
+import { isAuthenticated, removeUserData} from '../lib/auth';
 import Link from 'next/link';
 import NotificationBell from '../components/NotificationBell';
 import api from '../lib/api';
@@ -18,8 +18,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     try {
       await api.post('/auth/logout');
     } catch (e) {}
-    removeToken();
-    localStorage.removeItem('userId');
+    removeUserData();
     router.push('/login');
   };
 

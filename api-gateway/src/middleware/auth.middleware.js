@@ -5,7 +5,7 @@ require('dotenv').config();
 const redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379');
 
 const authenticate = async (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
+  const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'No token provided' });
   try {
     const blacklisted = await redis.get(`blacklist:${token}`);

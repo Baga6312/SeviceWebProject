@@ -1,4 +1,12 @@
-export const setToken = (token: string) => localStorage.setItem('token', token);
-export const getToken = () => localStorage.getItem('token');
-export const removeToken = () => localStorage.removeItem('token');
-export const isAuthenticated = () => !!localStorage.getItem('token');
+export const setUserData = (id: string, role: string) => {
+  localStorage.setItem('userId', id);
+  localStorage.setItem('role', role);
+};
+
+export const getUserId = () => localStorage.getItem('userId');
+export const getRole = () => localStorage.getItem('role');
+export const removeUserData = () => {
+  localStorage.removeItem('userId');
+  localStorage.removeItem('role');
+};
+export const isAuthenticated = () => !!localStorage.getItem('userId');

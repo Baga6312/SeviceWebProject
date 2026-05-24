@@ -10,7 +10,14 @@ const login = async (req, res) => {
     if (response.data.errors) {
       return res.status(400).json({ message: response.data.errors[0].message });
     }
-    res.json(response.data.data.login);
+    const { token, user } = response.data.data.login;
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    res.json({ user });
   } catch (e) {
     res.status(400).json({ message: e.message });
   }
@@ -22,7 +29,17 @@ const register = async (req, res) => {
     const response = await axios.post(process.env.AUTH_SERVICE + '/graphql', {
       query: `mutation { register(input: { username: "${username}", email: "${email}", password: "${password}", role: ${role || 'OPERATOR'} }) { token user { id username role } } }`
     });
-    res.json(response.data.data.register);
+    if (response.data.errors) {
+      return res.status(400).json({ message: response.data.errors[0].message });
+    }
+    const { token, user } = response.data.data.register;
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    res.json({ user });
   } catch (e) {
     res.status(400).json({ message: e.message });
   }

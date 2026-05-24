@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '../lib/api';
-import { setToken } from '../lib/auth';
+import { setUserData } from '../lib/auth';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -12,8 +12,7 @@ export default function RegisterPage() {
 const handleRegister = async () => {
   try {
     const res = await api.post('/auth/register', form);
-    setToken(res.data.token);
-    localStorage.setItem('userId', res.data.user.id);
+    setUserData(res.data.user.id, res.data.user.role);
     router.push('/dashboard');
   } catch (e) {
     setError('Registration failed');
