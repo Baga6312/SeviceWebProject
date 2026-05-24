@@ -2,12 +2,13 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/api';
 import dynamic from 'next/dynamic';
+import { isAdmin } from '../../lib/auth';
 
 const MapView = dynamic(() => import('../../components/MapView'), { ssr: false });
 
 export default function TrafficPage() {
-  const [trafficData, setTrafficData] = useState([]);
-  const [zones, setZones] = useState([]);
+  const [trafficData, setTrafficData] = useState<any[]>([]);
+  const [zones, setZones] = useState<any[]>([]);
   const [selectedZone, setSelectedZone] = useState<any>(null);
   const [form, setForm] = useState({ name: '', lat: 36.8189, lng: 10.1658, radius: 500 });
   const [densityForm, setDensityForm] = useState({ zoneId: 1, density: 50 });
@@ -47,12 +48,13 @@ const handleShowMap = (zoneId: number) => {
   return (
     <div>
       <h1 className="text-3xl font-bold mb-6">Traffic Management</h1>
-      <div className="grid grid-cols-2 gap-6 mb-6">
-        <div className="bg-gray-800 p-6 rounded-xl">
-          <h2 className="text-xl font-semibold mb-4">Create Zone</h2>
-          <input className="w-full mb-3 p-2 rounded bg-gray-700 text-white" placeholder="Zone name"
-            onChange={(e) => setForm({ ...form, name: e.target.value })} />
-          <div className="flex gap-2 mb-3">
+      {isAdmin() && (
+        <div className="grid grid-cols-2 gap-6 mb-6">
+          <div className="bg-gray-800 p-6 rounded-xl">
+            <h2 className="text-xl font-semibold mb-4">Create Zone</h2>
+            <input className="w-full mb-3 p-2 rounded bg-gray-700 text-white" placeholder="Zone name"
+              onChange={(e) => setForm({ ...form, name: e.target.value })} />
+            <div className="flex gap-2 mb-3">
             <input className="flex-1 p-2 rounded bg-gray-700 text-white" placeholder="Lat" type="number"
               defaultValue={36.8189} onChange={(e) => setForm({ ...form, lat: parseFloat(e.target.value) })} />
             <input className="flex-1 p-2 rounded bg-gray-700 text-white" placeholder="Lng" type="number"
@@ -76,7 +78,7 @@ const handleShowMap = (zoneId: number) => {
             Measure
           </button>
         </div>
-      </div>
+      </div>)}
 
       <h2 className="text-xl font-semibold mb-4">Traffic Data</h2>
       <div className="bg-gray-800 rounded-xl overflow-hidden mb-6">

@@ -12,6 +12,8 @@ const authenticate = async (req, res, next) => {
     if (blacklisted) return res.status(401).json({ message: 'Token revoked' });
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
+    req.headers['x-user-id'] = decoded.id;
+    req.headers['x-user-role'] = decoded.role;
     next();
   } catch (e) {
     return res.status(401).json({ message: 'Invalid token' });

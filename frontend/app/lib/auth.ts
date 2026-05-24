@@ -10,3 +10,4 @@ export const removeUserData = () => {
   localStorage.removeItem('role');
 };
 export const isAuthenticated = () => !!localStorage.getItem('userId');
+export const isAdmin = () => localStorage.getItem('role') === 'ADMIN';

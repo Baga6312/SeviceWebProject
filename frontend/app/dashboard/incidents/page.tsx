@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import api from '../../lib/api';
+import { isAdmin } from '../../lib/auth';
 
 export default function IncidentsPage() {
   const [incidents, setIncidents] = useState([]);
@@ -65,12 +66,14 @@ export default function IncidentsPage() {
                 <td className="p-3">
                   <span className={`${statusColor(inc.status)} px-2 py-1 rounded text-sm`}>{inc.status}</span>
                 </td>
-                <td className="p-3 flex gap-2">
-                  <button className="bg-yellow-600 hover:bg-yellow-700 px-2 py-1 rounded text-sm"
-                    onClick={() => handleStatus(inc.id, 'IN_PROGRESS')}>In Progress</button>
-                  <button className="bg-green-600 hover:bg-green-700 px-2 py-1 rounded text-sm"
-                    onClick={() => handleStatus(inc.id, 'RESOLVED')}>Resolve</button>
-                </td>
+              <td className="p-3 flex gap-2">
+  {isAdmin() && <>
+    <button className="bg-yellow-600 hover:bg-yellow-700 px-2 py-1 rounded text-sm"
+      onClick={() => handleStatus(inc.id, 'IN_PROGRESS')}>In Progress</button>
+    <button className="bg-green-600 hover:bg-green-700 px-2 py-1 rounded text-sm"
+      onClick={() => handleStatus(inc.id, 'RESOLVED')}>Resolve</button>
+  </>}
+</td>
               </tr>
             ))}
           </tbody>
