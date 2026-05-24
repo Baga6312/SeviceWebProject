@@ -39,8 +39,9 @@ import { AppController } from './app.controller';
       autoSchemaFile: true,
       formatError: (error) => ({
         message: error.message,
-        code: error.extensions?.code,
+        code: (error.extensions?.originalError as any)?.statusCode || error.extensions?.code,
       }),
+
     }),
     TrafficModule,
   ],

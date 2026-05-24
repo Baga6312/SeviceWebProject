@@ -40,7 +40,7 @@ import * as Joi from 'joi';
       autoSchemaFile: true,
       formatError: (error) => ({
         message: error.message,
-        code: error.extensions?.code,
+        code: (error.extensions?.originalError as any)?.statusCode || error.extensions?.code,
       }),
     }),
 

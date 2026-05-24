@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query, Context , Int} from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthResponse } from './dto/auth.response';
@@ -47,7 +47,29 @@ export class AuthResolver {
   }
 
   @Query(() => [User])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   getUsers() {
-    return this.usersService.findAll();
-  }
+      return this.usersService.findAll();
+  }  
+
+
+
+  @Mutation(() => User)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.ADMIN)
+updateUser(
+  @Args('id', { type: () => Int }) id: number,
+  @Args('username', { nullable: true }) username?: string,
+  @Args('email', { nullable: true }) email?: string,
+) {
+  return this.usersService.update(id, { username, email });
+}
+
+@Mutation(() => Boolean)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.ADMIN)
+deleteUser(@Args('id', { type: () => Int }) id: number) {
+  return this.usersService.delete(id);
+}
 }

@@ -35,4 +35,18 @@ export class UsersService {
   async findAll(): Promise<User[]> {
     return this.usersRepo.find();
   }
+
+
+  async update(id: number, data: Partial<{ username: string; email: string; password: string }>): Promise<User | null> {
+    await this.usersRepo.update(id, data);
+    return this.usersRepo.findOne({ where: { id } });
+  }
+
+  async delete(id: number): Promise<boolean> {
+    await this.usersRepo.delete(id);
+    return true;
+  }
+  
+
+
 }

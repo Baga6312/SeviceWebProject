@@ -25,4 +25,4 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 3001);
   console.log(`Auth service running on http://localhost:3001/graphql`);
 }
-bootstrap();
+void bootstrap();

@@ -27,7 +27,11 @@ export class NotificationsService {
       );
       userIds = res.data.data.getUsers.map((u: any) => u.id);
     } catch (e) {
-      console.error('Failed to fetch users:', e.message);
+      if (e instanceof Error) {
+        console.error('Failed to fetch users:', e.message);
+      } else {
+        console.error('Failed to fetch users:', e);
+      }
     }
 
     let saved: Notification | null = null;
@@ -40,6 +44,12 @@ export class NotificationsService {
 
     this.wsGateway.broadcast({ ...input, userIds });
     return saved!;
+  }
+
+  async markAllAsRead(userId: number): Promise<boolean> {
+    await this.repo.update({ userId, isRead: false }, { isRead: true });
+    await this.redisService.del(`notifs:${userId}`);
+    return true;
   }
 
   async findByUser(userId: number): Promise<Notification[]> {

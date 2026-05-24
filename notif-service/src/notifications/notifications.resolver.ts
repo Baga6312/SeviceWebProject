@@ -21,4 +21,9 @@ export class NotificationsResolver {
   markAsRead(@Args('id', { type: () => Int }) id: number) {
     return this.service.markAsRead(id);
   }
+
+  @Mutation(() => Boolean)
+    markAllAsRead(@Args('userId', { type: () => Int }) userId: number) {
+    return this.service.markAllAsRead(userId);
+}
 }
