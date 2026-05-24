@@ -1,0 +1,1388 @@
+{
+  "info": {
+    "_postman_id": "810541d2-a7a1-48d6-8960-64cf0e78a303",
+    "name": "ServiceWeb",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "23301578"
+  },
+  "item": [
+    {
+      "name": "auth-service",
+      "item": [
+        {
+          "name": "crud",
+          "item": [
+            {
+              "name": "updateUser",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc5NjI4MTI1LCJleHAiOjE3Nzk3MTQ1MjV9.Jj9Ut89w4DVXAJLG_OKUwE48kQ3Nsyz0G2mIzJO6mDQ",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "graphql",
+                  "graphql": {
+                    "query": "mutation {\r\n  updateUser(id: 2, username: \"newname\") {\r\n    id\r\n    username\r\n    email\r\n  }\r\n}",
+                    "variables": ""
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/graphql",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3001",
+                  "path": [
+                    "graphql"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "deleteUser",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc5NjI4MTI1LCJleHAiOjE3Nzk3MTQ1MjV9.Jj9Ut89w4DVXAJLG_OKUwE48kQ3Nsyz0G2mIzJO6mDQ",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "graphql",
+                  "graphql": {
+                    "query": "mutation {\r\n  deleteUser(id: 2)\r\n}",
+                    "variables": ""
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/graphql",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3001",
+                  "path": [
+                    "graphql"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "getUsers",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6Ik9QRVJBVE9SIiwiaWF0IjoxNzc5NjI3MDE1LCJleHAiOjE3Nzk3MTM0MTV9.OeMZtanKhg6y6erD75utiLYhUgkxHlLqCGM2t2iy47U",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "graphql",
+                  "graphql": {
+                    "query": "query {\r\n  getUsers { id email role }\r\n}",
+                    "variables": ""
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/graphql",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3001",
+                  "path": [
+                    "graphql"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  register(input: {\r\n    username: \"adminuser\"\r\n    email: \"admin@test.com\"\r\n    password: \"Admin1234!\"\r\n    role: ADMIN\r\n  }) {\r\n    token\r\n    user { id email role }\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  login(input: {\r\n    email: \"admin@test.com\"\r\n    password: \"Admin1234!\"\r\n  }) {\r\n    token\r\n    user { id email role }\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "me",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6Ik9QRVJBVE9SIiwiaWF0IjoxNzc5NjI2NTcxLCJleHAiOjE3Nzk3MTI5NzF9.Kt5BQu_Kplm_ELKw7sjRNK-tszjYo9ei8I1GAeteZBM",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\r\n  me { id email role }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6Ik9QRVJBVE9SIiwiaWF0IjoxNzc5NjIyOTgxLCJleHAiOjE3Nzk3MDkzODF9.ERHlqFS2TfwMYUTdjZDOx0p5sCI9hDzTQ1UV5TCz5D0",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  logout\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "api-gateway",
+      "item": [
+        {
+          "name": "/auth",
+          "item": [
+            {
+              "name": "login",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc5NjYxMTM0LCJleHAiOjE3Nzk3NDc1MzR9.bQutVGEBwJ4N7NbwL2KelmwGURMuElKkR7b51HzWg0s",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"email\": \"admin@test.com\",\r\n  \"password\": \"Admin1234!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/auth/login",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "register",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"newuser\",\r\n  \"email\": \"new@test.com\",\r\n  \"password\": \"Test1234!\",\r\n  \"role\": \"OPERATOR\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/auth/register",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "validate",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc5NjYxODgyLCJleHAiOjE3Nzk3NDgyODJ9.OBdKDWGQyMKVSSBnCQCsIDNANrQbBiYWCwW385S9Bm4",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/auth/validate",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "auth",
+                    "validate"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "logout",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc5NjYxODgyLCJleHAiOjE3Nzk3NDgyODJ9.OBdKDWGQyMKVSSBnCQCsIDNANrQbBiYWCwW385S9Bm4",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/auth/logout",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "auth",
+                    "logout"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "/notif",
+          "item": [
+            {
+              "name": "sendNotification",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc5NjYyMTE3LCJleHAiOjE3Nzk3NDg1MTd9.zO5lxVH8LatGnMPGAxP53HEeJwgmLPq8T-5Ddx3uN-o",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"userId\": 1,\r\n  \"message\": \"Test from gateway\",\r\n  \"type\": \"INFO\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/notifications",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "notifications"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "getNotifications",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/notifications/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "notifications",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "markAsRead",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"id\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/notifications/read",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "notifications",
+                    "read"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "/vehicle",
+          "item": [
+            {
+              "name": "addVehicle",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"plate\": \"TU-GW-01\",\r\n  \"type\": \"CAR\",\r\n  \"ownerId\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/vehicles",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "vehicles"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "getVehicles",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/vehicles",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "vehicles"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "recordPosition",
+              "protocolProfileBehavior": {
+                "disabledSystemHeaders": {}
+              },
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"vehicleId\": 1,\r\n  \"lat\": 36.8189,\r\n  \"lng\": 10.1658\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/vehicles/position",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "vehicles",
+                    "position"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "getHistory",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/vehicles/1/history",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "vehicles",
+                    "1",
+                    "history"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "/traffic",
+          "item": [
+            {
+              "name": "createZone",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Zone Gateway Test\",\r\n  \"lat\": 36.8189,\r\n  \"lng\": 10.1658,\r\n  \"radius\": 500\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/traffic/zones",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "traffic",
+                    "zones"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "measureDensity",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"zoneId\": 1,\r\n  \"density\": 85\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/traffic/density",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "traffic",
+                    "density"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "getZones",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/traffic/zones",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "traffic",
+                    "zones"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "getCongestedZones",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/traffic/congested",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "traffic",
+                    "congested"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "getAllTrafficData",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/traffic/data",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "traffic",
+                    "data"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "/incident",
+          "item": [
+            {
+              "name": "declareIncident",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"type\": \"ACCIDENT\",\r\n  \"description\": \"Car crash\",\r\n  \"location\": \"Tunis\",\r\n  \"reportedBy\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/incidents",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "incidents"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "getIncidents",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/incidents",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "incidents"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "updateIncidentStatus",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"id\": 1,\r\n  \"status\": \"IN_PROGRESS\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:4000/api/v1/incidents/status",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "4000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "incidents",
+                    "status"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "HealthCheck",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:4000/health",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "notif-service",
+      "item": [
+        {
+          "name": "sendNotif",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc5NjI4MTI1LCJleHAiOjE3Nzk3MTQ1MjV9.Jj9Ut89w4DVXAJLG_OKUwE48kQ3Nsyz0G2mIzJO6mDQ",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  sendNotification(input: {\r\n    userId: 1\r\n    message: \"Test notification\"\r\n    type: \"INFO\"\r\n  }) {\r\n    id\r\n    message\r\n    isRead\r\n    createdAt\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3002/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3002",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getNotif",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc5NjI4MTI1LCJleHAiOjE3Nzk3MTQ1MjV9.Jj9Ut89w4DVXAJLG_OKUwE48kQ3Nsyz0G2mIzJO6mDQ",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\r\n  getNotifications(userId: 1) {\r\n    id\r\n    message\r\n    type\r\n    isRead\r\n    createdAt\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3002/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3002",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "markAsRead",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc5NjI4MTI1LCJleHAiOjE3Nzk3MTQ1MjV9.Jj9Ut89w4DVXAJLG_OKUwE48kQ3Nsyz0G2mIzJO6mDQ",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  markAsRead(id: 1) {\r\n    id\r\n    isRead\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3002/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3002",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "markAllasRead",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzc5NjI4MTI1LCJleHAiOjE3Nzk3MTQ1MjV9.Jj9Ut89w4DVXAJLG_OKUwE48kQ3Nsyz0G2mIzJO6mDQ",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  markAllAsRead(userId: 1)\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3002/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3002",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "incident-service",
+      "item": [
+        {
+          "name": "declareIncident",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  declareIncident(input: {\r\n    type: \"ACCIDENT\"\r\n    description: \"Car crash\"\r\n    location: \"Tunis\"\r\n    reportedBy: 1\r\n  }) {\r\n    id type status createdAt\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAllIncidents",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\r\n  getIncidents { id type description location status createdAt }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetSingleIncident",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\r\n  getIncident(id: 1) { id type status }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateStatus",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  updateIncidentStatus(input: { id: 1, status: \"IN_PROGRESS\" }) {\r\n    id status updatedAt\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "NotFound",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\r\n  getIncident(id: 99999) { id type }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "traffic-service",
+      "item": [
+        {
+          "name": "createZone",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  createZone(input: {\r\n    name: \"Zone Test\"\r\n    lat: 36.8189\r\n    lng: 10.1658\r\n    radius: 500\r\n  }) {\r\n    id\r\n    name\r\n    lat\r\n    lng\r\n    radius\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3004/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3004",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAllZone",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\r\n  getZones {\r\n    id\r\n    name\r\n    lat\r\n    lng\r\n    radius\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3004/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3004",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "MeasureLowDensity",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  measureDensity(input: { zoneId: 1, density: 20 }) {\r\n    id level density\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3004/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3004",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "MeasureHighDensity",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  measureDensity(input: { zoneId: 1, density: 90 }) {\r\n    id level density\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3004/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3004",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetCongestedZones",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\r\n  getCongestedZones { id zoneId density level timestamp }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3004/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3004",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "NotFound",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  measureDensity(input: { zoneId: 99999, density: 50 }) {\r\n    id level\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3004/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3004",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "frontend",
+      "item": []
+    },
+    {
+      "name": "vehicule-service",
+      "item": [
+        {
+          "name": "addVeh",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  addVehicle(input: {\r\n    plate: \"TU-TEST-01\"\r\n    type: \"CAR\"\r\n    ownerId: 1\r\n  }) {\r\n    id\r\n    plate\r\n    type\r\n    status\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3003/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3003",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getVehicle",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\r\n  getVehicles {\r\n    id\r\n    plate\r\n    type\r\n    status\r\n    createdAt\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3003/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3003",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getSpecVeh",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\r\n  getVehicle(id: 19999) {\r\n    id\r\n    plate\r\n    type\r\n    status\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3003/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3003",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GPSpos",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  recordPosition(input: {\r\n    vehicleId: 1\r\n    lat: 36.8189\r\n    lng: 10.1658\r\n  }) {\r\n    id\r\n    vehicleId\r\n    lat\r\n    lng\r\n    timestamp\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3003/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3003",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getHistory",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query {\r\n  getHistory(vehicleId: 1) {\r\n    id\r\n    lat\r\n    lng\r\n    timestamp\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3003/graphql",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3003",
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

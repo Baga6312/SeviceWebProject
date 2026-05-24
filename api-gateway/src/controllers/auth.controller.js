@@ -47,12 +47,17 @@ const register = async (req, res) => {
 
 const validate = async (req, res) => {
   try {
-    const token = req.headers.authorization;
+    const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ message: 'No token provided' });
+    
     const response = await axios.post(
       process.env.AUTH_SERVICE + '/graphql',
       { query: `query { me { id username role } }` },
-      { headers: { Authorization: token } }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
+    if (response.data.errors) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
     res.json(response.data.data.me);
   } catch (e) {
     res.status(401).json({ message: 'Invalid token' });
