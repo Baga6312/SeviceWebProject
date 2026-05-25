@@ -58,7 +58,11 @@ cd ../incident-service && npm run test
 
 ## Eslint for bad block 
 ```bash
-
+cd auth-service && npx eslint src --ext .ts --fix
+cd ../notif-service && npx eslint src --ext .ts --fix
+cd ../vehicle-service && npx eslint src --ext .ts --fix
+cd ../traffic-service && npx eslint src --ext .ts --fix
+cd ../incident-service && npx eslint src --ext .ts --fix
 ```
 
 
