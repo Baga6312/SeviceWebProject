@@ -56,6 +56,13 @@ cd ../incident-service && npm run test
 
 ---
 
+## Eslint for bad block 
+```bash
+
+```
+
+
+
 ## Dockerization
 
 The full stack runs via Docker Compose across two isolated networks — `backend` for internal service communication and `frontend` for external exposure.
