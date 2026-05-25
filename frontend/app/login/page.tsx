@@ -10,10 +10,12 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+
   const handleLogin = async () => {
     try {
       const res = await api.post('/auth/login', { email, password });
-      setUserData(res.data.user.id, res.data.user.role);
+      console.log('login response:', res.data);
+      setUserData(res.data.user.id, res.data.user.role, res.data.token);
       router.push('/dashboard');
     } catch (e) {
       setError('Invalid credentials');

@@ -17,7 +17,7 @@ const login = async (req, res) => {
       sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ user });
+    res.json({ user , token});
   } catch (e) {
     res.status(400).json({ message: e.message });
   }
@@ -39,7 +39,7 @@ const register = async (req, res) => {
       sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ user });
+    res.json({ user, token});
   } catch (e) {
     res.status(400).json({ message: e.message });
   }

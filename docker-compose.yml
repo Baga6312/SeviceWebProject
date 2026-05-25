@@ -54,6 +54,12 @@ services:
 
   auth-service:
     build: ./auth-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
     environment:
       DB_HOST: auth_db
       DB_PORT: 5432
@@ -62,8 +68,10 @@ services:
       DB_NAME: auth_db
       JWT_SECRET: supersecretkey123
       PORT: 3001
+      REDIS_URL: redis://redis:6379
     depends_on:
       - auth_db
+      - redis
     networks:
       - backend
 
@@ -71,6 +79,12 @@ services:
     build: ./notif-service
     ports:
       - "3002:3002"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
     environment:
       DB_HOST: notif_db
       DB_PORT: 5432
@@ -88,6 +102,12 @@ services:
 
   vehicle-service:
     build: ./vehicle-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
     environment:
       DB_HOST: vehicle_db
       DB_PORT: 5432
@@ -103,6 +123,12 @@ services:
 
   traffic-service:
     build: ./traffic-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
     environment:
       DB_HOST: traffic_db
       DB_PORT: 5432
@@ -118,6 +144,12 @@ services:
 
   incident-service:
     build: ./incident-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3005/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
     environment:
       DB_HOST: incident_db
       DB_PORT: 5432
@@ -144,11 +176,16 @@ services:
       TRAFFIC_SERVICE: http://traffic-service:3004
       INCIDENT_SERVICE: http://incident-service:3005
     depends_on:
-      - auth-service
-      - notif-service
-      - vehicle-service
-      - traffic-service
-      - incident-service
+      auth-service:
+        condition: service_healthy
+      notif-service:
+        condition: service_healthy
+      vehicle-service:
+        condition: service_healthy
+      traffic-service:
+        condition: service_healthy
+      incident-service:
+        condition: service_healthy
     networks:
       - backend
       - frontend
