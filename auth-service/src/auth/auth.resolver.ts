@@ -47,11 +47,9 @@ export class AuthResolver {
   }
 
   @Query(() => [User])
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
   getUsers() {
-      return this.usersService.findAll();
-  }  
+    return this.usersService.findAll();
+  }
 
 
 

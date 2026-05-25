@@ -169,6 +169,7 @@ services:
       - "4000:4000"
     environment:
       PORT: 4000
+      REDIS_URL: redis://redis:6379
       JWT_SECRET: supersecretkey123
       AUTH_SERVICE: http://auth-service:3001
       NOTIF_SERVICE: http://notif-service:3002
